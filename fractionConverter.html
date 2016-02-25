@@ -1,0 +1,72 @@
+<script>
+"use strict";
+
+//helper functions
+function separateNumeratorFromDenominator (s) {
+	let fractionSeparatorIndex = s.indexOf("/");
+	let numerator = Number(s.slice(0, fractionSeparatorIndex));
+	let denominator = Number(s.slice(fractionSeparatorIndex + 1));
+	return [numerator, denominator];	
+}
+
+
+function findGreatestCommonDivisor(numerator, denominator) {
+	let remainder = denominator % numerator;
+	if (remainder === 0) {
+		return numerator;
+	}
+	
+	let result = findGreatestCommonDivisor(remainder, numerator);
+	return Math.abs(result);
+}
+
+
+function reduceFraction (numerator, denominator) {
+	let reducer = findGreatestCommonDivisor(numerator, denominator);
+	return [numerator / reducer, denominator / reducer];
+}
+
+
+function formatIntoFraction(numeratorAndDenominator) {
+	let numerator = numeratorAndDenominator[0];
+	let denominator = numeratorAndDenominator[1];
+	return numerator.toString() + "/" + denominator.toString();
+}
+
+
+//main
+function mixedFraction(s){
+	let numeratorAndDenominator = separateNumeratorFromDenominator(s);
+	let numerator = numeratorAndDenominator[0];
+	let denominator = numeratorAndDenominator[1];
+	if (denominator === 0) {
+		throw new Error("Zero division error");
+	}
+	
+	let output = "";
+	let quotient = numerator / denominator;
+	let absQuotient = Math.abs(quotient);
+	let absNumerator = Math.abs(numerator);
+	let absDenominator = Math.abs(denominator);
+	let remainder = absNumerator % absDenominator;
+	
+	if (quotient < 0) {
+		output += "-";
+	}
+	
+	if (remainder === 0) {
+		output += absQuotient.toString();
+	}
+	
+	if (absQuotient < 1) {
+		output += formatIntoFraction(reduceFraction(absNumerator, absDenominator));
+	}
+	
+	if (absQuotient > 1) {
+		output += Math.trunc(absQuotient).toString() + " " + formatIntoFraction(reduceFraction(remainder, absDenominator));
+	}
+	
+	return output;
+}
+
+</script>
