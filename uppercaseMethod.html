@@ -1,0 +1,8 @@
+<script>
+"use strict"
+//string method that returns true if string of alphabetical characters is in all caps, false otherwise
+String.prototype.isUpperCase = function() {
+	let lowercaseLetters = /[a-z]/;
+	return !(lowercaseLetters.test(this));
+}
+</script>
