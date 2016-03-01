@@ -1,0 +1,22 @@
+<script>
+"use strict";
+
+//Rounds number to provided decimal places
+Math.roundTo = function(number, precision) {
+    if (precision < 0 || isNaN(precision)){
+        throw new Error("Precision input is invalid.");
+    }
+    
+    if (precision === 0) {
+        return Math.round(number);
+    }
+    
+    if (number < 1) {
+        precision = precision - 1;
+    } 
+    
+    let numberToPrecisionPower = number * Math.pow(10, precision);
+    return Math.round(numberToPrecisionPower) / Math.pow(10, precision);
+}
+
+</script>
